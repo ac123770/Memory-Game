@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Matching Game</title>
+<meta name="description" content="">
+<link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda"><style>
+   html {box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+body {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    font-family: 'Coda', cursive;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+/*
+ * Styles for the deck of cards
+ */
+.deck {
+    width: 660px;
+    min-height: 680px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+}
+.deck .card {
+    height: 125px;
+    width: 125px;
+    background: #2e3d49;
+    font-size: 0;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+
+.deck .card.open {
+    transform: rotateY(0);
+    background: #02b3e4;
+    cursor: default;
+}
+.deck .card.show {
+    font-size: 33px;
+}
+.deck .card.match {
+    cursor: default;
+    background: #02ccba;
+    font-size: 33px;
+}
+/*
+ * Styles for the Score Panel
+ */
+.score-panel {
+    text-align: left;
+    width: 345px;
+    margin-bottom: 10px;
+}
+.score-panel .stars {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+.score-panel .stars li {
+    list-style: none;
+    display: inline-block;
+}
+.score-panel .restart {
+    float: right;
+    cursor: pointer;
+} 
+</style>
+</head>
+<body>
+<div class="container">
+        <header>
+            <h1>Matching Game</h1>
+        </header>
+
+        <section class="score-panel">
+        	<ul class="stars">
+        		<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star"></i></li>
+        	</ul>
+
+        	<span class="moves">3</span> Moves
+
+            <div class="restart">
+        		<i class="fa fa-repeat"></i>
+        	</div>
+        </section>
+
+               <ul class="deck">
+            <li class="card" data-card="fa-diamond">
+                <i class="fa fa-diamond"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-paper-plane-o"></i>
+            </li>
+            <li class="card match">
+                <i class="fa fa-anchor"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-bolt"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-cube"></i>
+            </li>
+            <li class="card match">
+                <i class="fa fa-anchor"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-leaf"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-bicycle"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-diamond"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-bomb"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-leaf"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-bomb"></i>
+            </li>
+            <li class="card open show">
+                <i class="fa fa-bolt"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-bicycle"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-paper-plane-o"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-cube"></i>
+                 </li>
+     <li class="card">
+                <i class="fa fa-Facebook"></i>
+            </li>
+<li class="card">
+                <i class="fa fa-whatsapp"></i>
+            </li>
+<li class="card">
+                <i class="fa fa-balance-scale"></i>
+            </li>
+<li class="card">
+                <i class="fa fa-internet-explorer"></i>
+            </li>
+<li class="card">
+                <i class="fa fa-whatsapp"></i>
+            </li>
+<li class="card">
+                <i class="fa fa-internet-explorer"></i>
+            </li>
+<li class="card">
+                <i class="fa fa-Facebook"></i>
+            </li>
+<li class="card">
+                <i class="fa fa-balance-scale"></i>
+            </li>
+        </ul>
+    </div>
+
+
+    <script>
+    	/*
+* create a list that holds all of your cards
+*/
+      
+
+      
+/*
+* Display the cards on the page
+*   - shuffle the list of cards using the provided "shuffle" method below
+*   - loop through each card and create its HTML
+*   - add each card's HTML to the page
+*/
+      
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+                  
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * curentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+   }
+      
+      return array;
+   
+   }
+
+function initGame() {
+  
+}
+      
+// initGame();
+      
+      
+var allCards = document.querySelectorAll('.card');
+var openCards = [];
+
+allCards.forEach(function(card) {
+    card.addEventListener('click', function(e) {
+if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains ('match')) {
+      openCards.push(card);
+      card.classList.add('open', 'show');
+          var firstCardType = openCards[0].dataset.card;
+      console.log(firstCardType);
+  
+      if (openCards.length == 2) {
+        setTimeout(function() {
+          openCards.forEach(function(card) {
+              card.classList.remove('open', 'show');
+          });
+          
+            openCards = [];
+        }, 1000);
+      }        }
+           });
+  });
+   </script></body></html>
+
